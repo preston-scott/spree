@@ -65,8 +65,8 @@ class Product < ActiveRecord::Base
   end
 
   def self.add_search_scope(name, &block)
-    self.named_scope name.intern, &block
-    search_scopes << name.intern
+    self.named_scope name.to_sym, &block
+    search_scopes << name.to_sym
   end
 
   include ::Scopes::Product
