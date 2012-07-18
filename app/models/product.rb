@@ -60,13 +60,12 @@ class Product < ActiveRecord::Base
 
   alias :options :product_option_types
 
-  cattr_accessor :search_scopes do
-    []
-  end
+  cattr_accessor :search_scopes
+  self.search_scopes = []
 
   def self.add_search_scope(name, &block)
-    self.named_scope name.intern, &block
-    search_scopes << name.intern
+    self.named_scope name.to_sym, &block
+    search_scopes << name.to_sym
   end
 
   include ::Scopes::Product
