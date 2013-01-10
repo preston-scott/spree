@@ -42,7 +42,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'rake', '0.8.7'
   s.add_dependency 'rdoc', '>= 3.9.4'
-  s.add_dependency 'rails', '= 2.3.14'
+  s.add_dependency 'rails', '>= 2.3.15'
   s.add_dependency 'rack', '>= 1.1.0'
   s.add_dependency 'highline', '= 1.5.1'
   s.add_dependency 'authlogic', '2.1.3'
