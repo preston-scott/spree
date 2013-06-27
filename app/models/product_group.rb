@@ -132,7 +132,7 @@ class ProductGroup < ActiveRecord::Base
       cached_group
     else
       product_scopes.select {|s| 
-        s.is_ordering?
+        s.name != 'with_property_value' && s.is_ordering?
       }.inject(cached_group) {|res,order| 
         order.apply_on(res)
       }

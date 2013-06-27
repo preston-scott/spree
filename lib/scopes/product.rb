@@ -115,22 +115,6 @@ module Scopes::Product
     }
   end
 
-  # a simple test for product with a certain property-value pairing
-  # note that it can test for properties with NULL values, but not for absent values
-  Product.add_search_scope :with_property_value do |property, value|
-    conditions = case property
-    when String   then ["properties.name = ?", property]
-    when Property then ["properties.id = ?", property.id]
-    else               ["properties.id = ?", property.to_i]
-    end
-    conditions = ["product_properties.value = ? AND #{conditions[0]}", value, conditions[1]]
-
-    {
-      :joins => :properties,
-      :conditions => conditions
-    }
-  end
-
   # a scope that finds all products having an option value specified by name, object or id
   Product.add_search_scope :with_option_value do |option, value|
     option_type_id = case option
