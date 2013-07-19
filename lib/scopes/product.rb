@@ -81,14 +81,14 @@ module Scopes::Product
   end
 
   # for quick access to products in a group, WITHOUT using the association mechanism
-  Product.add_search_scope :in_cached_group do |product_group|
+  Product.named_scope :in_cached_group, lambda{|product_group|
     { :joins => "JOIN product_groups_products ON products.id = product_groups_products.product_id", 
       :conditions => ["product_groups_products.product_group_id = ?", product_group] 
     }
-  end
+  }
 
   # a scope that finds all products having property specified by name, object or id
-  Product.add_search_scope :with_property do |property|
+  Product.named_scope :with_property, lambda{|property|
     conditions = case property
     when String   then ["properties.name = ?", property]
     when Property then ["properties.id = ?", property.id]
@@ -99,7 +99,7 @@ module Scopes::Product
       :joins => :properties,
       :conditions => conditions
     }
-  end
+  }
 
   # a scope that finds all products having an option_type specified by name, object or id
   Product.add_search_scope :with_option do |option|
@@ -117,7 +117,7 @@ module Scopes::Product
 
   # a simple test for product with a certain property-value pairing
   # note that it can test for properties with NULL values, but not for absent values
-  Product.add_search_scope :with_property_value do |property, value|
+  Product.named_scope :with_property_value, lambda{|property, value|
     conditions = case property
     when String   then ["properties.name = ?", property]
     when Property then ["properties.id = ?", property.id]
@@ -129,7 +129,7 @@ module Scopes::Product
       :joins => :properties,
       :conditions => conditions
     }
-  end
+  }
 
   # a scope that finds all products having an option value specified by name, object or id
   Product.add_search_scope :with_option_value do |option, value|
