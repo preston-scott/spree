@@ -1,5 +1,4 @@
 # encoding: UTF-8
-require 'rake'
 version = File.read(File.expand_path("../SPREE_VERSION",__FILE__)).strip
 
 Gem::Specification.new do |s|
@@ -9,28 +8,21 @@ Gem::Specification.new do |s|
   s.summary     = 'Open Source E-Commence for Ruby on Rails.'
   s.description = "The most flexible commerce platform available - designed from the ground up to be as open and extensible as possible."
 
-  files = Rake::FileList['**/*']
-  files.exclude '**/._*'
-  files.exclude '**/*.rej'
-  files.exclude 'cache/'
-  files.exclude 'config/locomotive.yml'
-  files.exclude 'config/lighttpd.conf'
-  files.exclude 'config/mongrel_mimes.yml'
-  files.exclude 'db/*.db'
-  files.exclude 'db/*.sqlite3'
-  files.exclude 'db/*.sql'
-  files.exclude /^doc/
-  files.exclude 'log/*.log'
-  files.exclude 'log/*.pid'
-  files.exclude /^pkg/
-  files.include 'public/.htaccess.example'
-  files.exclude 'public/images/products'
-  files.exclude 'public/assets/products'
-  files.exclude 'spree.gemspec'
-  files.exclude 'tmp/'
-  files.exclude 'vendor/plugins/delegate_belongs_to/spec/app_root/log/*.log'
-  files.exclude 'vendor/plugins/resource_controller/test/*'
-  s.files = files.to_a
+  s.files = Dir[
+    'app/**/*', 
+    'bin/**/*', 
+    'config/**/*', 
+    'db/**/*',
+    'features/**/*',
+    'generate/**/*',
+    'lib/**/*', 
+    'log/README',
+    'public/**/*',
+    'script/**/*',
+    'test/**/*',
+    'vendor/**/*'
+  ]
+
   s.require_path = 'lib'
   s.requirements << 'none'
   s.required_ruby_version     = '>= 1.8.7'
