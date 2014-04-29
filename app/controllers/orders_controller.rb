@@ -14,6 +14,7 @@ class OrdersController < Spree::BaseController
   # override the default r_c behavior (remove flash - redirect to edit details instead of show)
   create do
     flash nil
+    
     success.wants.html {redirect_to edit_order_url(@order)}
     failure.wants.html { render :template => "orders/edit" }
   end
@@ -26,7 +27,7 @@ class OrdersController < Spree::BaseController
   # override the default r_c flash behavior
   update do
     flash nil
-    success.wants.html { redirect_to edit_order_url(object) }
+    success.wants.html {redirect_to edit_order_url(@order)}
     failure.wants.html { render :template => "orders/edit" }
   end
 
@@ -42,6 +43,8 @@ class OrdersController < Spree::BaseController
 
   destroy.response do |wants|
     wants.html { redirect_to(edit_object_url) }
+    wants.json { render :template => "orders/edit" }
+    wants.js { render :template => "orders/edit" }
   end
 
   def can_access?
