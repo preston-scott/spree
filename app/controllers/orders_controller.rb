@@ -15,7 +15,15 @@ class OrdersController < Spree::BaseController
   create do
     flash nil
     
-    success.wants.html {redirect_to edit_order_url(@order)}
+    success.wants.html {
+      #save the order to the current user so it persists if they log out or login on a different computer
+      if current_user and @order.user != current_user
+        current_user.orders << @order
+        @order.checkout.email = current_user.email
+        @order.save
+      end
+      redirect_to edit_order_url(@order)
+    }
     failure.wants.html { render :template => "orders/edit" }
   end
 
@@ -27,7 +35,7 @@ class OrdersController < Spree::BaseController
   # override the default r_c flash behavior
   update do
     flash nil
-    success.wants.html {redirect_to edit_order_url(@order)}
+    success.wants.html { redirect_to edit_order_url(@order) }
     failure.wants.html { render :template => "orders/edit" }
   end
 
