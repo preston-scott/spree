@@ -14,6 +14,7 @@ class Spree::BaseController < ActionController::Base
   include RoleRequirementSystem
   include EasyRoleRequirementSystem
   include SslRequirement
+  include ExceptionNotification::Notifiable
 
   def admin_created?
     User.first(:include => :roles, :conditions => ["roles.name = 'admin'"])
