@@ -138,11 +138,16 @@ class Admin::OverviewController < Admin::BaseController
   def biggest_spenders
     spenders = Order.sum(:total, :group => :user_id, :limit => 5, :order => "sum(total) desc", :conditions => "completed_at is not null and user_id is not null")
     spenders = spenders.map do |o|
-      orders = User.find(o[0]).orders
-      qty = orders.size
+      begin
+          orders = User.find(o[0]).orders
+          name = orders.first.name
+          qty = orders.size
+      rescue => e
+          name = "N/A"
+          qty = 0
+      end
 
-      [orders.first.name, qty, o[1]]
-
+      [name, qty, o[1]]
     end
 
     spenders.sort { |x,y| y[2] <=> x[2] }
